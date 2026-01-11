@@ -1,13 +1,13 @@
-(setq custom-file "C:\\Users\\schwarztoter\\AppData\\Roaming\\.emacs.custom.el")
+(setq custom-file "~/.emacs.custom.el")
 (package-initialize)
 
-(add-to-list 'load-path "C:\\Users\\schwarztoter\\AppData\\Roaming\\.emacs.local/")
+(add-to-list 'load-path "~/.emacs.local/")
 
-(load "C:\\Users\\schwarztoter\\AppData\\Roaming\\.emacs.rc\\rc.el")
+(load "~/.emacs.rc/rc.el")
 
-(load "C:\\Users\\schwarztoter\\AppData\\Roaming\\.emacs.rc\\misc-rc.el")
-(load "C:\\Users\\schwarztoter\\AppData\\Roaming\\.emacs.rc\\org-mode-rc.el")
-(load "C:\\Users\\schwarztoter\\AppData\\Roaming\\.emacs.rc\\autocommit-rc.el")
+(load "~/.emacs.rc/misc-rc.el")
+(load "~/.emacs.rc/org-mode-rc.el")
+(load "~/.emacs.rc/autocommit-rc.el")
 
 ;;; Appearance
 (defun rc/get-default-font ()
@@ -107,7 +107,7 @@
 
 (defun rc/set-up-whitespace-handling ()
   (interactive)
-  (whitespace-mode 1)
+  (whitespace-mode 0)
   (setq-local whitespace-style '(face tabs spaces trailing space-mark tab-mark))
   (setq-local whitespace-display-mappings
               '((space-mark 32 [183] [46])
@@ -133,6 +133,8 @@
 (add-hook 'nim-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'yaml-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'porth-mode-hook 'rc/set-up-whitespace-handling)
+
+(setq rust-format-on-save t)
 
 ;;; display-line-numbers-mode
 (when (version<= "26.0.50" emacs-version)
@@ -166,18 +168,6 @@
 (setq-default dired-dwim-target t)
 (setq dired-listing-switches "-alh")
 (setq dired-mouse-drag-files t)
-
-;;; helm
-(rc/require 'helm 'helm-git-grep 'helm-ls-git)
-
-(setq helm-ff-transformer-show-only-basename nil)
-
-(global-set-key (kbd "C-c h t") 'helm-cmd-t)
-(global-set-key (kbd "C-c h g g") 'helm-git-grep)
-(global-set-key (kbd "C-c h g l") 'helm-ls-git-ls)
-(global-set-key (kbd "C-c h f") 'helm-find)
-(global-set-key (kbd "C-c h a") 'helm-org-agenda-files-headings)
-(global-set-key (kbd "C-c h r") 'helm-recentf)
 
 ;;; yasnippet
 (rc/require 'yasnippet)
