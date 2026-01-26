@@ -42,16 +42,6 @@
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-;;; c-mode
-(setq-default c-basic-offset 4
-              c-default-style '((java-mode . "java")
-                                (awk-mode . "awk")
-                                (other . "bsd")))
-
-(add-hook 'c-mode-hook (lambda ()
-                         (interactive)
-                         (c-toggle-comment-style -1)))
-
 ;;; Paredit
 (rc/require 'paredit)
 
@@ -65,6 +55,16 @@
 (add-hook 'common-lisp-mode-hook 'rc/turn-on-paredit)
 (add-hook 'scheme-mode-hook      'rc/turn-on-paredit)
 (add-hook 'racket-mode-hook      'rc/turn-on-paredit)
+(add-hook 'c-mode-hook
+          (lambda ()
+            (setq c-basic-offset 4
+                  tab-width 4
+                  indent-tabs-mode nil)))
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (setq c-basic-offset 4
+                  tab-width 4
+                  indent-tabs-mode nil)))
 
 ;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook
@@ -98,9 +98,6 @@
 
 (require 'jai-mode)
 
-(require 'simpc-mode)
-(add-to-list 'auto-mode-alist '("\\.[hc]\\(pp\\)?\\'" . simpc-mode))
-
 (require 'c3-mode)
 
 ;;; Whitespace mode
@@ -117,7 +114,6 @@
 (add-hook 'tuareg-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'c++-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'c-mode-hook 'rc/set-up-whitespace-handling)
-(add-hook 'simpc-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'emacs-lisp-mode 'rc/set-up-whitespace-handling)
 (add-hook 'java-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'lua-mode-hook 'rc/set-up-whitespace-handling)
@@ -301,11 +297,6 @@
      nil
      t)
     (goto-line saved-line-number)))
-
-(add-hook 'simpc-mode-hook
-          (lambda ()
-            (interactive)
-            (setq-local fill-paragraph-function 'astyle-buffer)))
 
 (require 'compile)
 
