@@ -1,5 +1,49 @@
 (setq custom-file "~/.emacs.custom.el")
+(setq lsp-enable-indentation nil)
+(setq lsp-enable-on-type-formatting nil)
+
+;; --------------------
+;; Package setup (EARLY)
+;; --------------------
+(require 'package)
+(require 'cl-lib)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+
 (package-initialize)
+
+(setq package-selected-packages
+      '(lsp-mode yasnippet lsp-treemacs helm-lsp
+                 projectile hydra flycheck company avy which-key
+                 helm-xref dap-mode))
+
+(when (cl-find-if-not #'package-installed-p package-selected-packages)
+  (package-refresh-contents)
+  (mapc #'package-install package-selected-packages))
+
+;; --------------------
+;; LSP / completion UI
+;; --------------------
+
+(helm-mode 1)
+(which-key-mode 1)
+(projectile-mode 1)
+(global-company-mode 1)
+
+(add-hook 'c-mode-hook #'lsp-deferred)
+(add-hook 'c++-mode-hook #'lsp-deferred)
+
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1
+      lsp-idle-delay 0.1)
+
+(with-eval-after-load 'lsp-mode
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (require 'dap-cpptools))
+
 
 (add-to-list 'load-path "~/.emacs.local/")
 
@@ -23,24 +67,12 @@
 (column-number-mode 1)
 (show-paren-mode 1)
 
-(rc/require-theme 'gruber-darker)
+;; (rc/require-theme 'gruber-darker)
 ;; (rc/require-theme 'zenburn)
 ;; (load-theme 'adwaita t)
 
 (eval-after-load 'zenburn
   (set-face-attribute 'line-number nil :inherit 'default))
-
-;;; ido
-(rc/require 'smex 'ido-completing-read+)
-
-(require 'ido-completing-read+)
-
-(ido-mode 1)
-(ido-everywhere 1)
-(ido-ubiquitous-mode 1)
-
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;;; Paredit
 (rc/require 'paredit)
@@ -104,12 +136,12 @@
 
 (defun rc/set-up-whitespace-handling ()
   (interactive)
-  (whitespace-mode 0)
   (setq-local whitespace-style '(face tabs spaces trailing space-mark tab-mark))
   (setq-local whitespace-display-mappings
               '((space-mark 32 [183] [46])
                 (tab-mark 9 [9655 9] [92 9])))
-  (add-to-list 'write-file-functions 'delete-trailing-whitespace))
+  (add-to-list 'write-file-functions 'delete-trailing-whitespace)
+  (whitespace-mode 1))
 
 (add-hook 'tuareg-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'c++-mode-hook 'rc/set-up-whitespace-handling)
