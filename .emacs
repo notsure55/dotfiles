@@ -1,10 +1,5 @@
 (setq custom-file "~/.emacs.custom.el")
-(setq lsp-enable-indentation nil)
-(setq lsp-enable-on-type-formatting nil)
 
-;; --------------------
-;; Package setup (EARLY)
-;; --------------------
 (require 'package)
 (require 'cl-lib)
 
@@ -13,36 +8,18 @@
 
 (package-initialize)
 
-(setq package-selected-packages
-      '(lsp-mode yasnippet lsp-treemacs helm-lsp
-                 projectile hydra flycheck company avy which-key
-                 helm-xref dap-mode))
-
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
 
-;; --------------------
-;; LSP / completion UI
-;; --------------------
-
-(helm-mode 1)
+;; modes
 (which-key-mode 1)
 (projectile-mode 1)
 (global-company-mode 1)
 
-(add-hook 'c-mode-hook #'lsp-deferred)
-(add-hook 'c++-mode-hook #'lsp-deferred)
-
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      company-idle-delay 0.0
-      company-minimum-prefix-length 1
-      lsp-idle-delay 0.1)
-
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (require 'dap-cpptools))
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
 
 
 (add-to-list 'load-path "~/.emacs.local/")
@@ -105,6 +82,7 @@
                             (quote eval-print-last-sexp))))
 (add-to-list 'auto-mode-alist '("Cask" . emacs-lisp-mode))
 
+
 ;;; uxntal-mode
 
 (rc/require 'uxntal-mode)
@@ -141,7 +119,7 @@
               '((space-mark 32 [183] [46])
                 (tab-mark 9 [9655 9] [92 9])))
   (add-to-list 'write-file-functions 'delete-trailing-whitespace)
-  (whitespace-mode 1))
+  (whitespace-mode 0))
 
 (add-hook 'tuareg-mode-hook 'rc/set-up-whitespace-handling)
 (add-hook 'c++-mode-hook 'rc/set-up-whitespace-handling)
