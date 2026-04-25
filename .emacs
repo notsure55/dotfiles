@@ -106,3 +106,19 @@
   :commands (magit-status magit-get-current-branch)
   :custom(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   )
+
+(use-package hl-todo
+  :config
+  (setq hl-todo-keyword-faces
+       '(("TODO"   . "#FF0000")))
+  (global-hl-todo-mode)
+  )
+
+;; auto complete
+(use-package company
+  :config
+  (global-company-mode 1))
+
+
+
+
