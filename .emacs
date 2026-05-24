@@ -49,7 +49,7 @@
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; for treemacs users
   :config
-  (load-theme 'doom-ir-black t)
+  (load-theme 'doom-bluloco-dark t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -110,7 +110,8 @@
 (use-package hl-todo
   :config
   (setq hl-todo-keyword-faces
-       '(("TODO"   . "#FF0000")))
+        '(("TODO"   . "#FF0000")
+          ("SAFETY"   . "#00FF00")))
   (global-hl-todo-mode)
   )
 
@@ -119,6 +120,4 @@
   :config
   (global-company-mode 1))
 
-
-
-
+(use-package markdown-mode)
