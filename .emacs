@@ -12,7 +12,7 @@
 (global-display-line-numbers-mode 1)
 (setq-default indent-tabs-mode nil)
 
-(set-face-attribute 'default nil :font "0xProto Nerd Font Mono" :height  160)
+(set-face-attribute 'default nil :font "0xProto Regular" :height  160)
 
 (require 'package)
 
@@ -121,3 +121,10 @@
   (global-company-mode 1))
 
 (use-package markdown-mode)
+
+(use-package multiple-cursors)
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
