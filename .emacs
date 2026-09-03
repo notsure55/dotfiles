@@ -1,4 +1,5 @@
 (setq custom-file "~/.emacs.custom.el")
+(setq default-directory "~/")
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
